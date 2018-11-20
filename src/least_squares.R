@@ -5,16 +5,16 @@ library(hashmap)
 
 season <- 2004
 # AL east, central, west
-AL_teams <- c("BOS", "NYY", "BAL", "TBD", "TOR", 
-              "MIN", "CHW", "CLE", "DET", "KCR", 
-              "ANA", "OAK", "TEX", "SEA")
+# AL_teams <- c("BOS", "NYY", "BAL", "TBD", "TOR", 
+#               "MIN", "CHW", "CLE", "DET", "KCR", 
+#               "ANA", "OAK", "TEX", "SEA")
 # NL east, central, west
 # WSN is MTL
-NL_teams <- c("ATL", "PHI", "FLA", "NYM", "WSN",
-              "STL", "HOU", "CHC", "CIN", "PIT", "MIL",
-              "LAD", "SFG", "SDP", "COL", "ARI")
-
-for (team in NL_teams) {
+# NL_teams <- c("ATL", "PHI", "FLA", "NYM", "WSN",
+#               "STL", "HOU", "CHC", "CIN", "PIT", "MIL",
+#               "LAD", "SFG", "SDP", "COL", "ARI")
+AL_teams <- c("BOS")
+for (team in AL_teams) {
     setwd(paste0("~/Dropbox/f2018/sta631/Project/data/", season))
     
     rs_dataset <- paste0(team, "_rs.csv")
@@ -64,7 +64,7 @@ for (team in NL_teams) {
         }
         sum = sum_RS + sum_RA
         ss_vector <- append(ss_vector, sum)
-        # print(c(Gamma, sum))
+        print(c(Gamma, sum))
         Gamma = Gamma + 0.01
     }
     

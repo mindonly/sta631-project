@@ -1,0 +1,29 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Worksheet</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+   
+   <thead>      
+      <tr>
+         <th aria-label="Runs" data-stat="runs" scope="col" class=" poptip center">Runs</th>
+         <th aria-label="Games" data-stat="games" scope="col" class=" poptip center">Games</th>
+         <th aria-label="Wins" data-stat="wins" scope="col" class=" poptip center">Wins</th>
+         <th aria-label="Loss" data-stat="losses" scope="col" class=" poptip center">Loss</th>
+         <th aria-label="Win-Loss %" data-stat="win_loss_perc" scope="col" class=" poptip hide_non_quals center" data-tip="<strong>Win-Loss Percentage</strong><br>W / (W + L)<br>For players, leaders need one decision for every ten team games.<br>For managers, minimum to qualify for leading is 320 games." data-filter="1" data-name="Win-Loss %">W-L%</th>
+      </tr>
+      
+   </thead>
+   <tbody>
+<tr data-row="0"><th scope="row" class="right iz" data-stat="runs">0</th><td class="right " data-stat="games">4</td><td class="right iz" data-stat="wins">0</td><td class="right " data-stat="losses">4</td><td class="right " data-stat="win_loss_perc">.000</td></tr>
+<tr data-row="1"><th scope="row" class="right " data-stat="runs">1</th><td class="right " data-stat="games">12</td><td class="right iz" data-stat="wins">0</td><td class="right " data-stat="losses">12</td><td class="right " data-stat="win_loss_perc">.000</td></tr>
+<tr data-row="2"><th scope="row" class="right " data-stat="runs">2</th><td class="right " data-stat="games">16</td><td class="right " data-stat="wins">5</td><td class="right " data-stat="losses">11</td><td class="right " data-stat="win_loss_perc">.313</td></tr>
+<tr data-row="3"><th scope="row" class="right " data-stat="runs">3</th><td class="right " data-stat="games">14</td><td class="right " data-stat="wins">6</td><td class="right " data-stat="losses">8</td><td class="right " data-stat="win_loss_perc">.429</td></tr>
+<tr data-row="4"><th scope="row" class="right " data-stat="runs">4</th><td class="right " data-stat="games">27</td><td class="right " data-stat="wins">20</td><td class="right " data-stat="losses">7</td><td class="right " data-stat="win_loss_perc">.741</td></tr>
+<tr data-row="5"><th scope="row" class="right " data-stat="runs">5</th><td class="right " data-stat="games">20</td><td class="right " data-stat="wins">11</td><td class="right " data-stat="losses">9</td><td class="right " data-stat="win_loss_perc">.550</td></tr>
+<tr data-row="6"><th scope="row" class="right " data-stat="runs">6</th><td class="right " data-stat="games">11</td><td class="right " data-stat="wins">8</td><td class="right " data-stat="losses">3</td><td class="right " data-stat="win_loss_perc">.727</td></tr>
+<tr data-row="7"><th scope="row" class="right " data-stat="runs">7</th><td class="right " data-stat="games">27</td><td class="right " data-stat="wins">20</td><td class="right " data-stat="losses">7</td><td class="right " data-stat="win_loss_perc">.741</td></tr>
+<tr data-row="8"><th scope="row" class="right " data-stat="runs">8</th><td class="right " data-stat="games">9</td><td class="right " data-stat="wins">9</td><td class="right iz" data-stat="losses">0</td><td class="right " data-stat="win_loss_perc">1.000</td></tr>
+<tr data-row="9"><th scope="row" class="right " data-stat="runs">9</th><td class="right " data-stat="games">4</td><td class="right " data-stat="wins">4</td><td class="right iz" data-stat="losses">0</td><td class="right " data-stat="win_loss_perc">1.000</td></tr>
+<tr data-row="10"><th scope="row" class="right " data-stat="runs">10</th><td class="right " data-stat="games">9</td><td class="right " data-stat="wins">8</td><td class="right " data-stat="losses">1</td><td class="right " data-stat="win_loss_perc">.889</td></tr>
+<tr data-row="11"><th scope="row" class="right " data-stat="runs">11</th><td class="right " data-stat="games">6</td><td class="right " data-stat="wins">6</td><td class="right iz" data-stat="losses">0</td><td class="right " data-stat="win_loss_perc">1.000</td></tr>
+<tr data-row="12"><th scope="row" class="right " data-stat="runs">12</th><td class="right " data-stat="games">2</td><td class="right " data-stat="wins">2</td><td class="right iz" data-stat="losses">0</td><td class="right " data-stat="win_loss_perc">1.000</td></tr>
+<tr data-row="13"><th scope="row" class="right " data-stat="runs">14</th><td class="right " data-stat="games">1</td><td class="right " data-stat="wins">1</td><td class="right iz" data-stat="losses">0</td><td class="right " data-stat="win_loss_perc">1.000</td></tr>
+
+</tbody></table></body></html>
