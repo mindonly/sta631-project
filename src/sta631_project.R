@@ -12,7 +12,7 @@ data("Teams")
 #   ArXiv:Math/0509698. Retrieved from http://arxiv.org/abs/math/0509698
 
 # FUNCTIONS
-fit_weibull <- function(team, stat="rs", method="ls") {
+fit_weibull <- function(team, stat="rs", method="mle") {
     team_name <- teams_df$name[which(teams_df$franchID == team)]
     
     # threshold, location, shift (Beta)
@@ -47,7 +47,7 @@ fit_weibull <- function(team, stat="rs", method="ls") {
     bw = 1
     
     p <- ggplot(score_seq_df, aes(score_seq)) +
-        ggtitle(paste("2004", team_name)) +
+        ggtitle(paste("2004", team_name, paste0("   [", method, "]"))) +
         geom_histogram(binwidth = bw, col="blue", fill="grey") +
         scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
         xlim(-0.5, NA) +
@@ -79,29 +79,35 @@ twofit <- function(team1, team2) {
 season <- 2004
 setwd(paste0("~/Dropbox/f2018/sta631/Project/data/", season))
 teams_df <- subset(Teams, yearID == season)
+estimates_df <- read_csv("2004_py_exp_estimates.csv", col_types="cdd")
 
 # AL east, central, west
 # NL east, central, west
-teams <- c("BOS", "NYY", "BAL", "TBD", "TOR", 
-           "MIN", "CHW", "CLE", "DET", "KCR", 
-           "ANA", "OAK", "TEX", "SEA",
-           "ATL", "PHI", "FLA", "NYM", "WSN",
-           "STL", "HOU", "CHC", "CIN", "PIT", "MIL",
-           "LAD", "SFG", "SDP", "COL", "ARI")
+# WSN is MTL
+teams   <- c("BOS", "NYY", "BAL", "TBD", "TOR", 
+             "MIN", "CHW", "CLE", "DET", "KCR", 
+             "ANA", "OAK", "TEX", "SEA",
+             "ATL", "PHI", "FLA", "NYM", "WSN",
+             "STL", "HOU", "CHC", "CIN", "PIT", "MIL",
+             "LAD", "SFG", "SDP", "COL", "ARI")
 # least squares estimates
-ls_est  <- c(1.80, 1.77, 1.63, 1.82, 2.01,
-             1.80, 1.71, 1.81, 1.76, 1.80,
-             1.68, 1.79, 1.88, 1.76,
-             1.70, 1.92, 1.65, 1.60, 1.60,
-             1.83, 1.74, 1.67, 1.84, 1.61, 1.60, 
-             1.80, 1.93, 1.80, 1.84, 1.75)
+# ls_est  <- c(1.795, 1.753, 1.635, 1.813, 1.953,
+#              1.776, 1.703, 1.791, 1.747, 1.763,
+#              1.682, 1.759, 1.866, 1.762,
+#              1.700, 1.916, 1.648, 1.585, 1.537,
+#              1.825, 1.745, 1.666, 1.837, 1.610, 1.578,
+#              1.798, 1.925, 1.796, 1.842, 1.754)
+ls_est <- estimates_df$LS
 ls_hash  <- hashmap(teams, ls_est)
-
 # max. likelihood estimates
-# AL_mle <- c(1.82, 1.78, 1.66, 1.83, 1.97,
-#             1.79, 1.73, 1.79, 1.78, 1.76,
-#             1.71, 1.76, 1.90, 1.78)
-# AL_mle_hash <- hashmap(AL_teams, AL_mle)
+# mle_est <- c(1.816, 1.712, 1.641, 1.762, 1.670,
+#              1.774, 1.714, 1.681, 1.692, 1.624,
+#              1.660, 1.747, 1.796, 1.729,
+#              1.693, 1.845, 1.705, 1.639, 1.508,
+#              1.837, 1.760, 1.656, 1.790, 1.622, 1.628,
+#              1.822, 1.873, 1.800, 1.879, 1.761)
+mle_est <- estimates_df$MLE
+mle_hash <- hashmap(teams, mle_est)
 
 # AL
 twofit("BOS", "NYY")
