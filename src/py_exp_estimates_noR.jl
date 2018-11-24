@@ -7,7 +7,6 @@
 
 # Julia modules
 using CSV
-using Printf            # @printf
 using DataFrames
 using Distributions
 using LinearAlgebra     # dot()
@@ -80,7 +79,7 @@ function mle_prod(runs, game_d, γ)
       _prod += log(bin_area^game_d[rc])
    end
 
-   return _prod
+   return _prod                                # log(ab) = log(a) + log(b)
 end
 
 # max. likelihood estimate
@@ -96,12 +95,13 @@ function mle_est(RS, RA, score_dict, allow_dict)
       push!(gammav, round(γ, digits=p_digits))
       prod_RS = mle_prod(RS, score_dict, γ)
       prod_RA = mle_prod(RA, allow_dict, γ)
-      total_prod = prod_RS * prod_RA
+      total_prod = prod_RS + prod_RA           # log(p_RS * p_RA) = log(p_RS) + log(p_RA)
       push!(ssv, total_prod)
       γ += γ_step
    end
 
-   return gammav[findmin(ssv)[2]]
+   return gammav[findmax(ssv)[2]]              # max(LL) = min(-(LL))
+                                               # where LL <- log-likelihood
 end
 
 
