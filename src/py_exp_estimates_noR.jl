@@ -20,7 +20,7 @@ cd(data_dir * string(season))
 
 # globals (don't change these)
 n_games = 162
-β = -0.5          # threshold, location, shift Beta (β)
+β = -0.5             # threshold, location, shift (β) [Beta]
 
 # knobs to twiddle
 p_digits = 3         # precision digits
@@ -30,35 +30,32 @@ stop_γ = 2.00
 
 
 # α_RS (runs scored), α_RA (runs allowed) [Alpha]
-function alpharuns(runs, γ)
-   return (runs - β) / gamma(1 + 1/γ)
-end
+alpharuns(runs, γ) = (runs - β) / gamma(1 + 1/γ)
 
 # least squares sum
 function ls_sum(runs, game_d, γ)
-   sum = 0
-   run_v = collect(keys(game_d))
-
    α = alpharuns(runs, γ)
    dist = Weibull(γ, α)
+   run_v = collect(keys(game_d))
 
+   _sum = 0
    for rc in run_v
       bin_area = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
-      sum += (game_d[rc] - n_games * bin_area)^2
+      _sum += (game_d[rc] - n_games * bin_area)^2
    end
 
-   return sum
+   return _sum
 end
 
 # least squares estimate
 function ls_est(RS, RA, score_dict, allow_dict)
-   gammav = Vector{Float64}()
-   ssv = Vector{Float64}()
+   gammav = Vector{Float64}()    # gamma vector
+   ssv = Vector{Float64}()       # sum-of-squares vector
 
-   # shape (γ)
+   # shape (γ) [Gamma]
    γ = init_γ
-   total_sum = 0
 
+   total_sum = 0
    while γ <= stop_γ
       push!(gammav, round(γ, digits=p_digits))
       sum_RS = ls_sum(RS, score_dict, γ)
@@ -67,47 +64,44 @@ function ls_est(RS, RA, score_dict, allow_dict)
       push!(ssv, total_sum)
       γ += γ_step
    end
-   ls_est = gammav[findmin(ssv)[2]]
 
-   return ls_est
+   return gammav[findmin(ssv)[2]]
 end
 
-# max. likelihood product
+# max. likelihood (log) product
 function mle_prod(runs, game_d, γ)
-   prod = 0
-   run_v = collect(keys(game_d))
-
    α = alpharuns(runs, γ)
    dist = Weibull(γ, α)
+   run_v = collect(keys(game_d))
 
+   _prod = 0
    for rc in run_v
       bin_area = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
-      prod += log(bin_area^game_d[rc])
+      _prod += log(bin_area^game_d[rc])
    end
 
-   return prod
+   return _prod
 end
 
 # max. likelihood estimate
 function mle_est(RS, RA, score_dict, allow_dict)
-   gammav = Vector{Float64}()
-   ssv = Vector{Float64}()
+   gammav = Vector{Float64}()    # gamma vector
+   ssv = Vector{Float64}()       # sum-of-squares vector
 
-   # shape Gamma (γ)
+   # shape (γ) [Gamma]
    γ = init_γ
-   total_prod = 0
 
+   total_prod = 0
    while γ <= stop_γ
       push!(gammav, round(γ, digits=p_digits))
       prod_RS = mle_prod(RS, score_dict, γ)
       prod_RA = mle_prod(RA, allow_dict, γ)
-      total_prod = log(prod_RS * prod_RA)
+      total_prod = prod_RS * prod_RA
       push!(ssv, total_prod)
       γ += γ_step
    end
-   mle_est = gammav[findmin(ssv)[2]]
 
-   return mle_est
+   return gammav[findmin(ssv)[2]]
 end
 
 
@@ -117,7 +111,7 @@ function main()
    teams = ["BOS", "NYY", "BAL", "TBD", "TOR",           # east
             "MIN", "CHW", "CLE", "DET", "KCR",           # central
             "ANA", "OAK", "TEX", "SEA",                  # west
-            "ATL", "PHI", "FLA", "NYM", "WSN",           # east: WSN is MTL
+            "ATL", "PHI", "FLA", "NYM", "WSN",           # east: WSN is Montreal
             "STL", "HOU", "CHC", "CIN", "PIT", "MIL",    # central
             "LAD", "SFG", "SDP", "COL", "ARI"]           # west
 
