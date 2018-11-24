@@ -36,18 +36,18 @@ end
 
 # least squares sum
 function ls_sum(runs, game_d, γ)
-   sum_R = 0
+   sum = 0
    run_v = collect(keys(game_d))
 
    α = alpharuns(runs, γ)
    dist = Weibull(γ, α)
 
    for rc in run_v
-      area_R = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
-      sum_R += (game_d[rc] - n_games * area_R)^2
+      bin_area = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
+      sum += (game_d[rc] - n_games * bin_area)^2
    end
 
-   return sum_R
+   return sum
 end
 
 # least squares estimate
@@ -74,18 +74,18 @@ end
 
 # max. likelihood product
 function mle_prod(runs, game_d, γ)
-   prod_R = 0
+   prod = 0
    run_v = collect(keys(game_d))
 
    α = alpharuns(runs, γ)
    dist = Weibull(γ, α)
 
    for rc in run_v
-      area_R = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
-      prod_R += log(area_R^game_d[rc])
+      bin_area = cdf(dist, (rc - β) - β) - cdf(dist, (rc - β) + β)
+      prod += log(bin_area^game_d[rc])
    end
 
-   return prod_R
+   return prod
 end
 
 # max. likelihood estimate
