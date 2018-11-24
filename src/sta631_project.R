@@ -12,6 +12,7 @@ data("Teams")
 #   ArXiv:Math/0509698. Retrieved from http://arxiv.org/abs/math/0509698
 
 # FUNCTIONS
+# supports "method" = ls or mle
 fit_weibull <- function(team, stat="rs", method="mle") {
     team_name <- teams_df$name[which(teams_df$franchID == team)]
     
@@ -90,12 +91,14 @@ teams   <- c("BOS", "NYY", "BAL", "TBD", "TOR",
              "ATL", "PHI", "FLA", "NYM", "WSN",
              "STL", "HOU", "CHC", "CIN", "PIT", "MIL",
              "LAD", "SFG", "SDP", "COL", "ARI")
+
+# import LS and MLE estimates, organize w/ hashmap
 ls_est <- estimates_df$LS
 ls_hash  <- hashmap(teams, ls_est)
-
 mle_est <- estimates_df$MLE
 mle_hash <- hashmap(teams, mle_est)
 
+# create fit plots
 # AL
 twofit("BOS", "NYY")
 twofit("BAL", "TBD")
@@ -113,11 +116,3 @@ twofit("CIN", "PIT")
 twofit("MIL", "LAD")
 twofit("SFG", "SDP")
 twofit("COL", "ARI")
-
-#
-# TODO
-# main(season_yr, league, method)
-# season_yr: integer
-# league: string ("AL" or "NL")
-# method: string ("mle" or "ls")
-#
