@@ -160,4 +160,3 @@ end
 
 
 @time main()
-println()
