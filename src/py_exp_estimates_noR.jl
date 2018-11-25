@@ -5,7 +5,6 @@
 #   ArXiv:Math/0509698. Retrieved from http://arxiv.org/abs/math/0509698
 
 
-# Julia modules
 using CSV
 using DataFrames
 using Distributions
