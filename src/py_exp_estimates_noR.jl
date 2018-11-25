@@ -13,20 +13,24 @@ using LinearAlgebra     # dot()
 using SpecialFunctions  # gamma()
 
 
-season = 2004
-data_dir = "/Users/sanch/Dropbox/f2018/sta631/Project/data/"
-cd(data_dir * string(season))
-
 # globals (don't change these)
-n_games = 162
-β = -0.5             # threshold, location, shift (β) [Beta]
+const n_games = 162
+const β = -0.5             # threshold, location, shift (β) [Beta]
 
 # knobs to twiddle
-p_digits = 3         # precision digits
+const init_γ = 1.50
+const stop_γ = 2.00
+const p_digits = 3         # precision digits
 γ_step = 0.001
-init_γ = 1.50
-stop_γ = 2.00
 
+
+# working directory (datapath)
+function setdatapath(year)
+   data_dir = "/Users/sanch/Dropbox/f2018/sta631/Project/data/"
+   cd(data_dir * string(year))
+
+   return year
+end
 
 # α_RS (runs scored), α_RA (runs allowed) [Alpha]
 alpharuns(runs, γ) = (runs - β) / gamma(1 + 1/γ)
@@ -79,7 +83,7 @@ function mle_prod(runs, game_d, γ)
       _prod += log(bin_area^game_d[rc])
    end
 
-   return _prod                                # log(ab) = log(a) + log(b)
+   return _prod                              # log(ab) = log(a) + log(b)
 end
 
 # max. likelihood estimate
@@ -95,18 +99,20 @@ function mle_est(RS, RA, score_dict, allow_dict)
       push!(gammav, round(γ, digits=p_digits))
       prod_RS = mle_prod(RS, score_dict, γ)
       prod_RA = mle_prod(RA, allow_dict, γ)
-      total_prod = prod_RS + prod_RA           # log(p_RS * p_RA) = log(p_RS) + log(p_RA)
+      total_prod = prod_RS + prod_RA         # log(p_RS * p_RA) = log(p_RS) + log(p_RA)
       push!(ssv, total_prod)
       γ += γ_step
    end
 
-   return gammav[findmax(ssv)[2]]              # max(LL) = min(-(LL))
-                                               # where LL <- log-likelihood
+   return gammav[findmax(ssv)[2]]            # max(LL) = min(-(LL))
+                                             # where LL <- log-likelihood
 end
 
 
 # main function
 function main()
+   season = setdatapath(2004)
+
    # AL / NL
    teams = ["BOS", "NYY", "BAL", "TBD", "TOR",           # east
             "MIN", "CHW", "CLE", "DET", "KCR",           # central
@@ -141,14 +147,16 @@ function main()
       push!(mle_v, mle_est(RS, RA, score_dict, allow_dict))
    end
 
+   println("--------------------------------------------")
+   println(" $season MLB Pythagorean expectation estimates ")
+   println("--------------------------------------------")
+
    return_df = DataFrame([teams, ls_v, mle_v], [:Team, :LS, :MLE])
    println(return_df, "\n")
-   CSV.write("2004_py_exp_estimates.csv", return_df)
+
+   outfile = string(season) * "_py_exp_estimates.csv"
+   CSV.write(outfile, return_df)
 end
 
 
-println("--------------------------------------------")
-println(" 2004 MLB Pythagorean expectation estimates ")
-println("--------------------------------------------")
 @time main()
-println()
