@@ -29,7 +29,7 @@ function setdatapath(year)
    data_dir = "/Users/sanch/Dropbox/f2018/sta631/Project/data/"
    cd(data_dir * string(year))
 
-   return year
+   return string(year)
 end
 
 # α_RS (runs scored), α_RA (runs allowed) [Alpha]
@@ -68,7 +68,7 @@ function ls_est(RS, RA, score_dict, allow_dict)
       γ += γ_step
    end
 
-   return gammav[findmin(ssv)[2]]
+   return gammav[findmin(ssv)[2]]            # minimize sum-of-squares
 end
 
 # max. likelihood (log) product
@@ -147,16 +147,17 @@ function main()
       push!(mle_v, mle_est(RS, RA, score_dict, allow_dict))
    end
 
-   println("--------------------------------------------")
-   println(" $season MLB Pythagorean expectation estimates ")
-   println("--------------------------------------------")
+   println("   ==============================================")
+   println("   * $season MLB Pythagorean expectation estimates *")
+   println("   ==============================================\n")
 
    return_df = DataFrame([teams, ls_v, mle_v], [:Team, :LS, :MLE])
    println(return_df, "\n")
 
-   outfile = string(season) * "_py_exp_estimates.csv"
+   outfile = season * "_py_exp_estimates.csv"
    CSV.write(outfile, return_df)
 end
 
 
 @time main()
+println()
