@@ -14,7 +14,7 @@ using SpecialFunctions  # gamma()
 
 # globals (don't change these)
 const n_games = 162
-const β = -0.5             # threshold, location, shift (β) [Beta]
+const β = -0.5             # threshold, location, shift (β) [Weibull Beta]
 
 # knobs to twiddle
 const init_γ = 1.50
@@ -31,7 +31,7 @@ function setdatapath(year)
    return string(year)
 end
 
-# α_RS (runs scored), α_RA (runs allowed) [Alpha]
+# α_RS (runs scored), α_RA (runs allowed) [Weibull Alpha]
 alpharuns(runs, γ) = (runs - β) / gamma(1 + 1/γ)
 
 # least squares sum
@@ -55,7 +55,7 @@ function ls_est(RS, RA, score_dict, allow_dict)
    gammav = Vector{Float64}()    # gamma vector
    ssv = Vector{Float64}()       # sum-of-squares vector
 
-   # shape (γ) [Gamma]
+   # shape (γ) [Weibull Gamma]
    γ = init_γ
 
    total_sum = 0
@@ -93,7 +93,7 @@ function mle_est(RS, RA, score_dict, allow_dict)
    gammav = Vector{Float64}()    # gamma vector
    slv = Vector{Float64}()       # sum-of-logs vector
 
-   # shape (γ) [Gamma]
+   # shape (γ) [Weibull Gamma]
    γ = init_γ
 
    total_prod = 0
