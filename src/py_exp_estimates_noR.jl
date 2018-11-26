@@ -7,7 +7,7 @@
 
 using CSV
 using DataFrames
-using Distributions
+using Distributions     # Weibull()
 using LinearAlgebra     # dot()
 using SpecialFunctions  # gamma()
 
@@ -20,7 +20,7 @@ const β = -0.5             # threshold, location, shift (β) [Beta]
 const init_γ = 1.50
 const stop_γ = 2.00
 const p_digits = 3         # precision digits
-γ_step = 0.001
+γ_step = 0.001             # estimate functions gamma step
 
 
 # working directory (datapath)
@@ -50,6 +50,7 @@ function ls_sum(runs, game_d, γ)
 end
 
 # least squares estimate
+# minimize sum-of-squares
 function ls_est(RS, RA, score_dict, allow_dict)
    gammav = Vector{Float64}()    # gamma vector
    ssv = Vector{Float64}()       # sum-of-squares vector
@@ -67,10 +68,10 @@ function ls_est(RS, RA, score_dict, allow_dict)
       γ += γ_step
    end
 
-   return gammav[findmin(ssv)[2]]            # minimize sum-of-squares
+   return gammav[findmin(ssv)[2]]
 end
 
-# max. likelihood (log) product
+# maximum likelihood (log) product
 function mle_prod(runs, game_d, γ)
    α = alpharuns(runs, γ)
    dist = Weibull(γ, α)
@@ -85,10 +86,12 @@ function mle_prod(runs, game_d, γ)
    return _prod                              # log(ab) = log(a) + log(b)
 end
 
-# max. likelihood estimate
+# maximum likelihood estimate
+# we use findmax() to find the max. log-likelihood
+# using findmin() to find the min. negative log-likelihood is equivalent
 function mle_est(RS, RA, score_dict, allow_dict)
    gammav = Vector{Float64}()    # gamma vector
-   ssv = Vector{Float64}()       # sum-of-squares vector
+   slv = Vector{Float64}()       # sum-of-logs vector
 
    # shape (γ) [Gamma]
    γ = init_γ
@@ -99,12 +102,11 @@ function mle_est(RS, RA, score_dict, allow_dict)
       prod_RS = mle_prod(RS, score_dict, γ)
       prod_RA = mle_prod(RA, allow_dict, γ)
       total_prod = prod_RS + prod_RA         # log(p_RS * p_RA) = log(p_RS) + log(p_RA)
-      push!(ssv, total_prod)
+      push!(slv, total_prod)
       γ += γ_step
    end
 
-   return gammav[findmax(ssv)[2]]            # max(LL) = min(-(LL))
-                                             # where LL <- log-likelihood
+   return gammav[findmax(slv)[2]]
 end
 
 
@@ -116,7 +118,7 @@ function main()
    teams = ["BOS", "NYY", "BAL", "TBD", "TOR",           # east
             "MIN", "CHW", "CLE", "DET", "KCR",           # central
             "ANA", "OAK", "TEX", "SEA",                  # west
-            "ATL", "PHI", "FLA", "NYM", "WSN",           # east: WSN is Montreal
+            "ATL", "PHI", "FLA", "NYM", "WSN",           # east: WSN is MTL
             "STL", "HOU", "CHC", "CIN", "PIT", "MIL",    # central
             "LAD", "SFG", "SDP", "COL", "ARI"]           # west
 
@@ -129,12 +131,12 @@ function main()
       ra_dataset = team * "_ra.csv"
 
       score_summary_df = CSV.read(rs_dataset)
-      rsv = score_summary_df[:Runs]
-      rsg = score_summary_df[:Games]
+      rsv = score_summary_df[:Runs]             # runs scored vector
+      rsg = score_summary_df[:Games]            # runs scored games
 
       allow_summary_df = CSV.read(ra_dataset)
-      rav = allow_summary_df[:Runs]
-      rag = allow_summary_df[:Games]
+      rav = allow_summary_df[:Runs]             # runs allowed vector
+      rag = allow_summary_df[:Games]            # runs allowed games
 
       score_dict = Dict(rsv[i] => rsg[i] for i = 1:length(rsv))
       allow_dict = Dict(rav[i] => rag[i] for i = 1:length(rav))
