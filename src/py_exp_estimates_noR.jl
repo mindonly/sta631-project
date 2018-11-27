@@ -23,7 +23,7 @@ const p_digits = 3         # precision digits
 γ_step = 0.001             # estimate functions gamma step
 
 
-# working directory (datapath)
+# set the working directory (datapath)
 function setdatapath(year)
    home = homedir()
    data_dir = home * "/Dropbox/f2018/sta631/Project/data/"
