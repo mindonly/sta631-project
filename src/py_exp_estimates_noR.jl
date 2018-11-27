@@ -25,7 +25,8 @@ const p_digits = 3         # precision digits
 
 # working directory (datapath)
 function setdatapath(year)
-   data_dir = "/Users/sanch/Dropbox/f2018/sta631/Project/data/"
+   home = homedir()
+   data_dir = home * "/Dropbox/f2018/sta631/Project/data/"
    cd(data_dir * string(year))
 
    return string(year)
