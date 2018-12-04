@@ -105,6 +105,9 @@ run;
 
 /* LINEAR MODEL WINNING % LINEAR */
 /***************************************************/
+%let allvars= r ab h _2b _3b hr bb so sb cs /*hbp sf*/ ra er era 
+cg sho sv IPouts ha hra bba soa e dp fp 
+obp slg ops;
 
 /* just run diff 2011 like in paper */
 proc reg data=teams2;
