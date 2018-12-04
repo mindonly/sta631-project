@@ -11,6 +11,8 @@ run;
 /*******************************************************************/
 data teams2; *teams2 is teams with calculated columns;
 	set teams;
+	hbp2 = input(hbp, 8.);
+	sf2 = input(sf, 8.);
 	w_l = w/l;		*win/loss ratio;
 	r_ra = r/ra; 	*runs/runs allowed ratio;
 	log_wl = log10(w_l);
@@ -18,7 +20,7 @@ data teams2; *teams2 is teams with calculated columns;
 	decade = floor(yearid/10)*10;
 	win_perc = w/(w+l); *winning percentage;
 	run_diff = r-ra; 	*run differential;
-	obp = (H+BB+HBP)/(AB+BB+HBP+SF); 	*on base percentage;
+	obp = (H+BB+HBP2)/(AB+BB+HBP2+SF2); 	*on base percentage;
 	slg = ((H-(_2b+_3b+HR))+(_2b*2)+(_3b*3)+(HR*4))/(AB); *slugging;
 	ops = OBP+SLG; 		*on base plus slugging;
 run;
