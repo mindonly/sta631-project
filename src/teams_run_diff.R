@@ -1,4 +1,4 @@
-library(car)
+
 
 # BEGIN DATA INPUT #
 #

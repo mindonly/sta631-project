@@ -1,4 +1,3 @@
-library(car)
 library(pls)
 
 # BEGIN DATA INPUT #
@@ -119,7 +118,7 @@ pls.fit.train <- plsr(Wpct ~ ., data=slim_1970, subset=train_1970, scale=TRUE, v
 summary(pls.fit.train)
 validationplot(pls.fit.train, val.type="MSEP")
    # fit on full dataset, get RMSE
-pls.pred <- predict(pls.fit.train, x[test_1970, ], ncomp=3)
+pls.pred <- predict(pls.fit.train, x[test_1970, ], ncomp=2)
 sqrt(mean((pls.pred - y.test)^2))
    # loading matrices
 loadings(pls.fit.full)[, 1:6]
