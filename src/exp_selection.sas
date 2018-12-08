@@ -11,6 +11,8 @@ run;
 /*******************************************************************/
 data teams2; *teams2 is teams with calculated columns;
 	set teams;
+	if yearID=1871 then hbp=.; *needed to fix orginal change required to read in properly;
+	if yearID=1871 then sf=.; *same^;
 	w_l = w/l;		*win/loss ratio;
 	r_ra = r/ra; 	*runs/runs allowed ratio;
 	log_wl = log10(w_l);
@@ -23,14 +25,12 @@ data teams2; *teams2 is teams with calculated columns;
 	ops = OBP+SLG; 		*on base plus slugging;
 run;
 
- 
-*/
-proc export data=teams2
-outfile='W:\MyStats631\BaseballProject\teams2.csv' /*Use the same path as above, adding a forward slash and the name of
-your file.csv ( /ExampleCSV.csv )*/
-dbms=csv
-replace;
-*run; 
+
+*proc export data=teams2
+	outfile='W:\MyStats631\BaseballProject\teams2.csv'
+	dbms=csv
+	replace;
+*run;
 
 /* obtain and plot exponent for each decade */
 ods exclude all; *supresses printed output but allows output to parms;
@@ -92,12 +92,12 @@ regression method and the following nonlinear method, which iteratively determin
 as it belongs in the formula.';
 
 /* get exponent with nonlinear method */
-proc nlin data=teams3 hougaard plots; *estimates exponent x;
+proc nlin data=teams2 hougaard plots; *estimates exponent x;
 	parms x=2;
 	model win_perc = (r**x)/((r**x)+(ra**x));
 	title2 'Estimating Pythagorean Exponent with Nonlinear Method';
 run;
-proc nlin data=teams3 hougaard;
+proc nlin data=teams2 hougaard;
 	parms x=2 y=2;
 	model win_perc = (r**x)/((r**x)+(ra**y));
 	title2 'Estimating Different Exponents Within the Formula';
@@ -105,6 +105,8 @@ run;
 
 /* LINEAR MODEL WINNING % LINEAR */
 /***************************************************/
+%let allvars= r ab h _2b _3b hr bb so sb cs ra er era 
+cg sho sv IPouts ha hra bba soa e dp fp obp slg ops hbp sf;
 
 /* just run diff 2011 like in paper */
 proc reg data=teams2;
@@ -152,13 +154,13 @@ data train valid;
 	else output valid;
 run;
 
-/* 9b fit a linear model using least squares on the training set */
+/* linear model using least squares on the training set */
 proc glmselect  data=train valdata=valid;
 	model win_perc = &allvars / selection=none   stat=(sl aic adjrsq bic ase);
 	title2 'Least Squares Regression';
 run;
 
-/* 9c Fit an elastic net on the training set, with
+/* elastic net on the training set, with
 lambda chosen by cross-validation */
 proc glmselect  data=train valdata=valid;
 	model win_perc = &allvars / selection=elasticnet
@@ -166,7 +168,7 @@ proc glmselect  data=train valdata=valid;
 	title2 'Elastic Net';
 run;
 
-/* 9d Fit a lasso model on the training set, with lambda
+/* lasso model on the training set, with lambda
 chosen by cross-validation */
 proc glmselect  data=train valdata=valid;
 	model win_perc = &allvars / selection=lasso
