@@ -85,21 +85,21 @@ x <- model.matrix(Wpct ~ ., slim_1970_noRD)[, -1]
 y <- slim_1970_noRD$Wpct
 y.test <- y[test_1970]
    # full dataset
-pcr.fit.full <- pcr(Wpct ~ ., data=slim_1970_noRD, scale=TRUE, validation="CV")
-summary(pcr.fit.full)
-validationplot(pcr.fit.full, val.type="MSEP")
+pcr.fit.full.noRD <- pcr(Wpct ~ ., data=slim_1970_noRD, scale=TRUE, validation="CV")
+summary(pcr.fit.full.noRD)
+validationplot(pcr.fit.full.noRD, val.type="MSEP")
     # train/test
-pcr.fit.train <- pcr(Wpct ~ ., data=slim_1970_noRD, subset=train_1970, scale=TRUE, validation="CV")
-summary(pcr.fit.train)
-validationplot(pcr.fit.train, val.type="MSEP")
+pcr.fit.train.noRD <- pcr(Wpct ~ ., data=slim_1970_noRD, subset=train_1970, scale=TRUE, validation="CV")
+summary(pcr.fit.train.noRD)
+validationplot(pcr.fit.train.noRD, val.type="MSEP")
     # fit on full dataset, get MSE
-pcr.pred <- predict(pcr.fit.train, x[test_1970, ], ncomp=4)
+pcr.pred <- predict(pcr.fit.train.noRD, x[test_1970, ], ncomp=4)
 sqrt(mean((pcr.pred - y.test)^2))
     # loading matrices
-loadings(pcr.fit.full)[, 1:6]
-abs(loadings(pcr.fit.full)[, 1:6]) > 0.30
-loadings(pcr.fit.train)[, 1:6]
-abs(loadings(pcr.fit.train)[, 1:6]) > 0.30
+loadings(pcr.fit.full.noRD)[, 1:6]
+abs(loadings(pcr.fit.full.noRD)[, 1:6]) > 0.30
+loadings(pcr.fit.train.noRD)[, 1:6]
+abs(loadings(pcr.fit.train.noRD)[, 1:6]) > 0.30
 
 
 # PLS
@@ -132,21 +132,21 @@ x <- model.matrix(Wpct ~ ., slim_1970_noRD)[, -1]
 y <- slim_1970_noRD$Wpct
 y.test <- y[test_1970]
    # full dataset
-pls.fit.full <- plsr(Wpct ~ ., data=slim_1970_noRD, scale=TRUE, validation="CV")
-summary(pls.fit.full)
-validationplot(pls.fit.full, val.type="MSEP")
+pls.fit.full.noRD <- plsr(Wpct ~ ., data=slim_1970_noRD, scale=TRUE, validation="CV")
+summary(pls.fit.full.noRD)
+validationplot(pls.fit.full.noRD, val.type="MSEP")
    # train/test
-pls.fit.train <- plsr(Wpct ~ ., data=slim_1970_noRD, subset=train_1970, scale=TRUE, validation="CV")
-summary(pls.fit.train)
-validationplot(pls.fit.train, val.type="MSEP")
+pls.fit.train.noRD <- plsr(Wpct ~ ., data=slim_1970_noRD, subset=train_1970, scale=TRUE, validation="CV")
+summary(pls.fit.train.noRD)
+validationplot(pls.fit.train.noRD, val.type="MSEP")
    # fit on full dataset, get RMSE
-pls.pred <- predict(pls.fit.train, x[test_1970, ], ncomp=2)
+pls.pred <- predict(pls.fit.train.noRD, x[test_1970, ], ncomp=2)
 sqrt(mean((pls.pred - y.test)^2))
    # loading matrices
-loadings(pls.fit.full)[, 1:6]
-abs(loadings(pls.fit.full)[, 1:6]) > 0.35
-loadings(pls.fit.train)[, 1:6]
-abs(loadings(pls.fit.train)[, 1:6]) > 0.35
+loadings(pls.fit.full.noRD)[, 1:6]
+abs(loadings(pls.fit.full.noRD)[, 1:6]) > 0.35
+loadings(pls.fit.train.noRD)[, 1:6]
+abs(loadings(pls.fit.train.noRD)[, 1:6]) > 0.35
 
 #
 # END PCR and PLS #
