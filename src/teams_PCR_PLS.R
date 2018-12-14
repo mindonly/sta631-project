@@ -39,20 +39,19 @@ test_1970 <- (-train_1970)
     # 2. batting/scoring
     # 3. pitching
     # 4. fielding
-    # NOTE: SO, CS, SB removed due to lack of complete cases
-    # also removed R, RA, H, OPS, and IPouts
+    # also removed R, RA, H, OPS
 
 # (with RD)
 slim_1970 <- subset(teams_1970, 
                     select = c(RD, Wpct, 
-                               AB, X1B, X2B, X3B, HR, BB, OBP, SLG,
-                               ER, ERA, CG, SHO, SV, HA, HRA, BBA, SOA, 
+                               AB, X1B, X2B, X3B, HR, SF, BB, HBP, SO, SB, CS, OBP, SLG,
+                               ER, ERA, CG, SHO, SV, HA, HRA, BBA, SOA, IPouts, 
                                E, DP, FP))
 # (without RD)
 slim_1970_noRD <- subset(teams_1970, 
                     select = c(Wpct, 
-                               AB, X1B, X2B, X3B, HR, BB, OBP, SLG,
-                               ER, ERA, CG, SHO, SV, HA, HRA, BBA, SOA, 
+                               AB, X1B, X2B, X3B, HR, SF, BB, HBP, SO, SB, CS, OBP, SLG,
+                               ER, ERA, CG, SHO, SV, HA, HRA, BBA, SOA, IPouts, 
                                E, DP, FP))
 
 # PCR
@@ -69,15 +68,15 @@ validationplot(pcr.fit.full, val.type="MSEP")
     # train/test
 pcr.fit.train <- pcr(Wpct ~ ., data=slim_1970, subset=train_1970, scale=TRUE, validation="CV")
 summary(pcr.fit.train)
-validationplot(pcr.fit.train, val.type="MSEP")
+validationplot(pcr.fit.train, val.type="MSEP", main="PCR with RD")
     # fit on full dataset, get RMSE
-pcr.pred <- predict(pcr.fit.train, x[test_1970, ], ncomp=4)
+pcr.pred <- predict(pcr.fit.train, x[test_1970, ], ncomp=7)
 sqrt(mean((pcr.pred - y.test)^2))
     # loading matrices
-loadings(pcr.fit.full)[, 1:6]
-abs(loadings(pcr.fit.full)[, 1:6]) > 0.30
-loadings(pcr.fit.train)[, 1:6]
-abs(loadings(pcr.fit.train)[, 1:6]) > 0.30
+loadings(pcr.fit.full)[, 1:9]
+abs(loadings(pcr.fit.full)[, 1:9]) > 0.30
+loadings(pcr.fit.train)[, 1:9]
+abs(loadings(pcr.fit.train)[, 1:9]) > 0.30
 
 # 1970 PCR without RD
     # set up model matrix (no RD)
@@ -93,7 +92,7 @@ pcr.fit.train.noRD <- pcr(Wpct ~ ., data=slim_1970_noRD, subset=train_1970, scal
 summary(pcr.fit.train.noRD)
 validationplot(pcr.fit.train.noRD, val.type="MSEP")
     # fit on full dataset, get MSE
-pcr.pred <- predict(pcr.fit.train.noRD, x[test_1970, ], ncomp=4)
+pcr.pred <- predict(pcr.fit.train.noRD, x[test_1970, ], ncomp=26)
 sqrt(mean((pcr.pred - y.test)^2))
     # loading matrices
 loadings(pcr.fit.full.noRD)[, 1:6]
@@ -116,15 +115,15 @@ validationplot(pls.fit.full, val.type="MSEP")
    # train/test
 pls.fit.train <- plsr(Wpct ~ ., data=slim_1970, subset=train_1970, scale=TRUE, validation="CV")
 summary(pls.fit.train)
-validationplot(pls.fit.train, val.type="MSEP")
+validationplot(pls.fit.train, val.type="MSEP", main="PLS with RD")
    # fit on full dataset, get RMSE
 pls.pred <- predict(pls.fit.train, x[test_1970, ], ncomp=2)
 sqrt(mean((pls.pred - y.test)^2))
    # loading matrices
-loadings(pls.fit.full)[, 1:6]
-abs(loadings(pls.fit.full)[, 1:6]) > 0.35
-loadings(pls.fit.train)[, 1:6]
-abs(loadings(pls.fit.train)[, 1:6]) > 0.35
+loadings(pls.fit.full)[, 1:9]
+abs(loadings(pls.fit.full)[, 1:9]) > 0.35
+loadings(pls.fit.train)[, 1:9]
+abs(loadings(pls.fit.train)[, 1:9]) > 0.35
 
 # 1970 PLS without RD #
    # set up model matrix (no RD)
