@@ -1,0 +1,23 @@
+---
+title: "Untitled"
+author: "Rob Sanchez"
+date: "December 12, 2018"
+output:
+  html_document:
+  pdf_document: default
+---
+
+
+### Ordinary Least Squares
+\[
+\sum_{k=1}^{\# Bins} (RS_{obs}(k) - \#Games \cdot A(\alpha_{RS}, -0.5, \gamma, k))^2 + \sum_{k=1}^{\# Bins} (RA_{obs}(k) - \#Games \cdot A(\alpha_{RA}, -0.5, \gamma, k))^2
+\]
+
+### Maximum Likelihood Estimate
+\[
+L(\alpha_{RS}, \alpha_{RA}, -0.5, \gamma) = 
+\binom{\#Games}{RS_{obs}(1), ... , RS_{obs}(\#Bins)} \prod_{k=1}^{\#Bins} A(\alpha_{RS}, -0.5, \gamma, k)^{RS_{obs}(k)}
+\]
+\[
+\cdot \binom{\#Games}{RA_{obs}(1), ... , RA_{obs}(\#Bins)} \prod_{k=1}^{\#Bins} A(\alpha_{RA}, -0.5, \gamma, k)^{RA_{obs}(k)}
+\]
