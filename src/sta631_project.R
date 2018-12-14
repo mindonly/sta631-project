@@ -101,21 +101,20 @@ mle_hash <- hashmap(teams, mle_est)
 
 # create fit plots
 # AL
-# twofit("BOS", "NYY")
-# twofit("BAL", "TBD")
-# twofit("TOR", "MIN")
-# twofit("CHW", "CLE")
+twofit("BOS", "NYY")
+twofit("BAL", "TBD")
+twofit("TOR", "MIN")
+twofit("CHW", "CLE")
 twofit("DET", "KCR")
-# twofit("ANA", "OAK")
-# twofit("TEX", "SEA")
+twofit("ANA", "OAK")
+twofit("TEX", "SEA")
 # NL
-# twofit("ATL", "PHI")
-# twofit("FLA", "NYM")
-# twofit("WSN", "STL")    # WSN is MTL
-# twofit("HOU", "CHC")
-# twofit("CIN", "PIT")
-# twofit("MIL", "LAD")
-# twofit("SFG", "SDP")
-# twofit("COL", "ARI")
+twofit("ATL", "PHI")
+twofit("FLA", "NYM")
+twofit("WSN", "STL")    # WSN is MTL
+twofit("HOU", "CHC")
+twofit("CIN", "PIT")
+twofit("MIL", "LAD")
+twofit("SFG", "SDP")
+twofit("COL", "ARI")
 
-twofit("CHC", "STL")
