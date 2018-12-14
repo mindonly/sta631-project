@@ -73,7 +73,8 @@ twofit <- function(team1, team2) {
     p3 <- fit_weibull(team2, "rs")
     p4 <- fit_weibull(team2, "ra")
     
-    plot_grid(p1, p3, p2, p4, nrow=2, ncol=2)
+    # plot_grid(p1, p3, p2, p4, nrow=2, ncol=2)
+    plot_grid(p1, p2, p3, p4, nrow=2, ncol=2)
 }
 # END FUNCTIONS
 
@@ -100,19 +101,21 @@ mle_hash <- hashmap(teams, mle_est)
 
 # create fit plots
 # AL
-twofit("BOS", "NYY")
-twofit("BAL", "TBD")
-twofit("TOR", "MIN")
-twofit("CHW", "CLE")
+# twofit("BOS", "NYY")
+# twofit("BAL", "TBD")
+# twofit("TOR", "MIN")
+# twofit("CHW", "CLE")
 twofit("DET", "KCR")
-twofit("ANA", "OAK")
-twofit("TEX", "SEA")
+# twofit("ANA", "OAK")
+# twofit("TEX", "SEA")
 # NL
-twofit("ATL", "PHI")
-twofit("FLA", "NYM")
-twofit("WSN", "STL")    # WSN is MTL
-twofit("HOU", "CHC")
-twofit("CIN", "PIT")
-twofit("MIL", "LAD")
-twofit("SFG", "SDP")
-twofit("COL", "ARI")
+# twofit("ATL", "PHI")
+# twofit("FLA", "NYM")
+# twofit("WSN", "STL")    # WSN is MTL
+# twofit("HOU", "CHC")
+# twofit("CIN", "PIT")
+# twofit("MIL", "LAD")
+# twofit("SFG", "SDP")
+# twofit("COL", "ARI")
+
+twofit("CHC", "STL")
